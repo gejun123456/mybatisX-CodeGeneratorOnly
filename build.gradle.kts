@@ -40,7 +40,7 @@ intellij {
         "SpringBoot",
         "DatabaseTools") //Bundled plugin dependencies
 
-    pluginName = "MybatisX"
+    pluginName = "MyBatisX-CodeGeneratorOnly"
     sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
 
     updateSinceUntilBuild = false

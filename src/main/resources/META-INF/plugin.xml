@@ -1,20 +1,21 @@
 <idea-plugin url="https://gitee.com/baomidou/mybatis-plus" require-restart="false" allow-bundled-update="true">
-    <id>com.baomidou.plugin.idea.mybatisx</id>
-    <name>MyBatisX</name>
-    <vendor email="jobob@qq.com" url="https://gitee.com/baomidou/MybatisX">MybatisX</vendor>
+    <id>com.bruce.mybatisxcodegenerator</id>
+    <name>MyBatisX-CodeGeneratorOnly</name>
+    <vendor email="gejun123456@gmail.com" url="">MyBatisX-CodeGeneratorOnly</vendor>
 
     <description><![CDATA[
-          MybatisX plugin
+          MybatisX CodeGeneratorOnly plugin
           Features:
        <ul>
-          <li>mapper and xml can jump back and forth</li>
-          <li>mybatis.xml,mapper.xml prompt</li>
-          <li>mapper and xml support auto prompt like jpa (reference  MybatisCodeHelperPro)</li>
-          <li>integrate mybatis generator Gui (copy from free mybatis plugin)</li>
+         <li>Code generator when right click on database table</li>
+           <li>For people who are migrating from MybatisX to other plugin but want to use with the code generator</li>
       </ul>
-
-      QQ群号: 829161197
-      wechat: wx153666 join the group of mybatisx
+          <ul>
+              <li>代码生成器可以在表上右键生成代码</li>
+              <li>由于idea api限制，只能支持一个带图标的Mybatis插件，方便用户从MybatisX插件迁移到其他插件当用户需要使用MybatisX这个代码生成器的时候</li>
+          </ul>
+      QQ群号: 789681969
+        <b>Code is forked from https://gitee.com/baomidou/MybatisX only keep the code generator code</b>
       ]]>
     </description>
 
@@ -161,7 +162,7 @@
 <!--                                  implementation="com.baomidou.plugin.idea.mybatisx.reference.ContextHashMarkReferenceContributor"/>-->
 
         <!-- 应用服务, 必须放在主文件,否则 XmlAndMapperIconProvider 会加载不到-->
-        <applicationService id="baomidou.MybatisSetting"
+        <applicationService id="com.bruce.MybatisSetting"
                             serviceImplementation="com.baomidou.plugin.idea.mybatisx.setting.MybatisXSettings"/>
         <!-- 使用 Alt+Delete 删除方法时, 也删掉对应的标签 -->
 <!--        <refactoring.safeDeleteProcessor id="MapperMethodSafeDeleteProcessor"-->
