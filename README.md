@@ -1,19 +1,14 @@
-## MybatisX idea 快速开发插件
+## MybatisXCodeGeneratorOnly 代码生成器插件
 
+该插件是基于MybatisX的插件的代码生成器部分，方便之前用户使用MybatisX插件的代码生成器后面使用其他不兼容的
+mybatis插件比如MybatisCodeHelperPro等也可以使用这个代码生成器
 
-[Mybatis-Plus](https://gitee.com/baomidou/mybatis-plus) 简化开发
+下载zip包
+https://github.com/gejun123456/mybatisX-CodeGeneratorOnly/releases/tag/1.6.3
 
-使用文档：https://baomidou.com/pages/ba5b24/
+Intellij 安装插件： File -> Settings -> Plugins -> Install plugin from disk.. 选中 MyBatisX-CodeGeneratorOnly-1.6.3.zip
+(重要,是zip包) 安装
 
-MybatisX 辅助 idea 快速开发 mybatis 插件，为效率而生。
+## 碰到问题：
 
-官方安装： File -> Settings -> Plugins -> Browse Repositories.. 输入 mybatisx 安装下载
-
-Jar 安装： File -> Settings -> Plugins -> Install plugin from disk.. 选中 mybatisx.zip(重要,是zip包) 安装
-
-亲！好用 五分好评 哦！！
-
-# 扫码加入微信交流群, 备注 mybatisX
-
-<img src="https://images.gitee.com/uploads/images/2021/1129/224455_6f75c7a9_12260.png" width="50%" height="50%">
-
+可以加入qq群：232578741 或者微信gejun12311来咨询
