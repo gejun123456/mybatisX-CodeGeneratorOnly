@@ -4,9 +4,8 @@
 mybatis插件比如MybatisCodeHelperPro等也可以使用这个代码生成器
 
 下载zip包
-https://github.com/gejun123456/mybatisX-CodeGeneratorOnly/releases/tag/1.6.3
-
-Intellij 安装插件： File -> Settings -> Plugins -> Install plugin from disk.. 选中 MyBatisX-CodeGeneratorOnly-1.6.3.zip
+https://github.com/gejun123456/mybatisX-CodeGeneratorOnly/releases
+Intellij 安装插件： File -> Settings -> Plugins -> Install plugin from disk.. 选中 MyBatisX-CodeGeneratorOnly.zip
 (重要,是zip包) 安装
 
 ## 碰到问题：
