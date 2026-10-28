@@ -8,13 +8,13 @@ plugins {
 //    alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
     id("org.jetbrains.intellij.platform") version "2.2.1"
 //    id("org.jetbrains.intellij.platform.migration") version "2.1.0"
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.24"
 }
 intellijPlatform{
     pluginConfiguration  {
         ideaVersion {
-            sinceBuild = "232"
-            untilBuild = "251.*"
+            sinceBuild = providers.gradleProperty("pluginSinceBuild")
+            untilBuild = providers.gradleProperty("pluginUntilBuild").map { "$it.*" }
         }
     }
 
@@ -27,6 +27,7 @@ repositories {
     intellijPlatform {
         defaultRepositories()
         jetbrainsRuntime()
+        localPlatformArtifacts()
     }
     maven { url=uri("https://plugins.gradle.org/m2/") }
     maven { url=uri("https://oss.sonatype.org/content/repositories/releases/") }
@@ -55,19 +56,24 @@ dependencies {
 
     testImplementation("junit:junit:4.13.1")
     testImplementation("commons-io:commons-io:2.18.0")
-    compileOnly("org.projectlombok:lombok:1.18.24")
-    annotationProcessor ("org.projectlombok:lombok:1.18.24")
+    compileOnly("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
 
     intellijPlatform {
         // 依赖版本  https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html#default-target-platforms
-        intellijIdeaUltimate( providers.gradleProperty("platformVersion"), useInstaller = true)
+        val localPath = providers.gradleProperty("localPath").orNull
+        if (!localPath.isNullOrEmpty() && file(localPath).exists()) {
+            local(file(localPath))
+        } else {
+            intellijIdeaUltimate(providers.gradleProperty("platformVersion"), useInstaller = false)
+        }
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
 //        instrumentationTools()
-        pluginVerifier()
+//        pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
     }

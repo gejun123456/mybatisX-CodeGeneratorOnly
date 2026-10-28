@@ -9,8 +9,10 @@ import com.baomidou.plugin.idea.mybatisx.generate.setting.TemplatesSettings;
 import com.baomidou.plugin.idea.mybatisx.generate.template.GenerateCode;
 import com.intellij.database.model.DasObject;
 import com.intellij.database.psi.DbTable;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
@@ -23,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,18 +45,25 @@ public class MybatisGeneratorMainAction extends AnAction {
      * @param e
      */
     @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+
+    @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         /**
          * 代码生成
          */
         Project project = e.getProject();
-        PsiElement[] tableElements = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
-        if (tableElements == null) {
+        if (project == null) {
+            return;
+        }
+        List<DbTable> dbTables = getSelectedDbTables(e);
+        if (dbTables.isEmpty()) {
             logger.error("未选择表, 无法生成代码");
             return;
         }
         ClassGenerateDialogWrapper classGenerateDialogWrapper = new ClassGenerateDialogWrapper(project);
-        List<DbTable> dbTables = Stream.of(tableElements).filter(t -> t instanceof DbTable).map(t -> (DbTable) t).collect(Collectors.toList());
         // 填充默认的选项
         classGenerateDialogWrapper.fillData(project, dbTables);
         classGenerateDialogWrapper.show();
@@ -107,37 +117,37 @@ public class MybatisGeneratorMainAction extends AnAction {
     }
 
 
-//    @Override
-//    public void update(@NotNull AnActionEvent e) {
-//        Boolean visible = null;
-//        PsiElement[] psiElements = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
-//        if (psiElements == null || psiElements.length == 0) {
-//            visible = false;
-//        }
-//        boolean existsDbTools = PluginExistsUtils.existsDbTools();
-//        if (!existsDbTools) {
-//            visible = false;
-//        }
-//        if (visible == null) {
-//            if (!Stream.of(psiElements).allMatch(item -> CheckMatch.checkAssignableFrom(item.getClass()))) {
-//                visible = false;
-//            }
-//        }
-//        // 未安装Database Tools插件时，不展示菜单
-//        if (visible != null) {
-//            e.getPresentation().setEnabledAndVisible(visible);
-//        }
-//
-//    }
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        Project project = e.getProject();
+        if (project == null) {
+            e.getPresentation().setEnabledAndVisible(false);
+            return;
+        }
+        List<DbTable> selectedTables = getSelectedDbTables(e);
+        e.getPresentation().setEnabledAndVisible(!selectedTables.isEmpty());
+    }
 
-//    private static class CheckMatch {
-//        public static boolean checkAssignableFrom(Class<? extends PsiElement> aClass) {
-//            try {
-//                return DbTable.class.isAssignableFrom(aClass);
-//            } catch (Exception e) {
-//                return false;
-//            }
-//        }
-//    }
-
+    @NotNull
+    public static List<DbTable> getSelectedDbTables(@NotNull AnActionEvent e) {
+        List<DbTable> dbTables = new ArrayList<>();
+        PsiElement[] tableElements = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
+        if (tableElements != null) {
+            for (PsiElement element : tableElements) {
+                if (element instanceof DbTable) {
+                    dbTables.add((DbTable) element);
+                }
+            }
+        }
+        if (dbTables.isEmpty()) {
+            PsiElement psiElement = e.getData(LangDataKeys.PSI_ELEMENT);
+            if (psiElement == null) {
+                psiElement = e.getData(CommonDataKeys.PSI_ELEMENT);
+            }
+            if (psiElement instanceof DbTable) {
+                dbTables.add((DbTable) psiElement);
+            }
+        }
+        return dbTables;
+    }
 }

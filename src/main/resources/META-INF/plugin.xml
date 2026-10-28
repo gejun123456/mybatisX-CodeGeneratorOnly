@@ -14,12 +14,19 @@
               <li>代码生成器可以在表上右键生成代码</li>
               <li>由于idea api限制，只能支持一个带图标的Mybatis插件，方便用户从MybatisX插件迁移到其他插件当用户需要使用MybatisX这个代码生成器的时候</li>
           </ul>
-      QQ群号: 789681969
+      QQ群号: 232578741
         <b>Code is forked from https://gitee.com/baomidou/MybatisX only keep the code generator code</b>
       ]]>
     </description>
 
     <change-notes><![CDATA[
+      <h4>1.7.4</h4>
+      <ul>
+          <li>support IntelliJ IDEA 2024.x, 2025.x, 2026.x</li>
+          <li>support ActionUpdateThread.BGT</li>
+          <li>support single and multiple database table selection</li>
+          <li>enhance PostgreSQL SERIAL primary key auto-increment detection</li>
+      </ul>
       <h4>1.4.8</h4>
       <ul>
           <li>change style of generate code by templates</li>
